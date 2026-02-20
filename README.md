@@ -97,6 +97,14 @@ For validation, I check that `Title` and `Content` are not empty and use `GetByT
 
 **Question 5:** Explain your testing strategy and the tools you chose.
 
+**Answer 5:** I used **xUnit** as the test framework since it is the standard for .NET projects. **Moq** is used to mock `IMessageRepository` so each test runs in isolation without needing a real database. **FluentAssertions** makes the assertions easy to read . Each test follows the Arrange-Act-Assert pattern: set up the mock, call the logic method, and check the result type. The test names describe what is being tested and what the expected outcome is.
+
 **Question 6:** What other scenarios would you test in a real-world application?
 
-commit the code as task-3
+**Answer 6:**
+- Title with exactly 3 and 200 characters (boundary testing)
+- Content with exactly 10 and 1000 characters (boundary testing)
+- Creating a message with an empty or whitespace-only title
+- Deleting an inactive message returns ValidationError
+- Concurrent create requests with the same title (race condition)
+
