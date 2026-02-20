@@ -69,9 +69,17 @@ For validation, I check that `Title` and `Content` are not empty and use `GetByT
 
 **Question 3:** How did you approach the validation requirements and why?
 
+**Answer 3:** I created a private `ValidateMessage` helper method inside `MessageLogic` that checks both Title and Content rules in one place. Title must be 3–200 characters and Content must be 10–1000 characters. If any rule fails, the method collects all errors into a dictionary and returns a `ValidationError` result. Business rules like "only active messages can be updated or deleted" are checked separately after fetching the message. I kept all validation inside the logic layer so the controller stays simple and only maps results to HTTP responses.
+
 **Question 4:** What changes would you make to this implementation for a production environment?
 
-commit the code as task-2
+**Answer 4:**
+- **Use a real database** — Replace the in-memory repository with Entity Framework Core or another ORM backed by a real database like SQL Server
+- **Use FluentValidation** — Move validation rules into dedicated validator classes for better reusability and testability
+- **Add logging** — Log all operations with structured logging for monitoring and debugging, by using Serilog, appinsights/new relic tools
+- **Add authentication and authorization** — Ensure users can only access messages for organizations they belong to
+- **Add pagination** — Return paged results from `GetAll` to handle large datasets
+
 
 ---
 
