@@ -36,9 +36,22 @@ Start the test by forking this repository, and complete the following tasks:
 
 **Question 1:** Describe your implementation approach and the key decisions you made.
 
+**Answer 1:** I implemented the controller by calling `IMessageRepository` directly since it was already injected and registered in DI. Each endpoint follows standard REST conventions:
+- **GET** returns `200 OK` with the data (or `404` if not found)
+- **POST** validates input, checks for duplicate titles, creates the message, and returns `201 Created`
+- **PUT** validates input, checks the message exists, prevents duplicate titles , updates fields, and returns `204 No Content`
+- **DELETE** attempts removal and returns `204` on success or `404` if not found
+
+For validation, I check that `Title` and `Content` are not empty and use `GetByTitleAsync` to keep unique titles per organization and return `409 Conflict` on duplicates.
+
 **Question 2:** What would you improve or change if you had more time?
 
-commit the code as task-1
+**Answer 2:**
+- **Add a business logic layer** — Implement `IMessageLogic` so the controller stays thin and all rules stay in one place
+- Add `skip`/`take` parameters to `GetAll` so it doesn't return everything at once
+- **Structured errors** — Return `ProblemDetails` instead of plain strings.
+- **Unit tests** — Test the controller with a mocked repository covering all success and failure scenarios
+- **Logging** — Use the injected `ILogger` to log all actions and error details.
 
 ---
 
